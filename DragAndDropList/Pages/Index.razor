@@ -1,0 +1,56 @@
+﻿@page "/"
+
+<ul ondragover="event.preventDefault();"
+	ondragstart="event.dataTransfer.setData('', event.target.id);"
+	>
+	@foreach (var item in Models.OrderBy(x => x.Order))
+	{
+		<li @ondrop="()=>HandleDrop(item)" >
+			<div @ondragleave="@(()=> {item.IsDragOver = false;})"
+				@ondragenter="@(()=>{item.IsDragOver = true;})"
+				style="@(item.IsDragOver?"border-style: solid none none none; border-color:red;":"")"
+				@ondragstart="() => draggingModel = item" draggable="true">@item.Name</div>
+		</li>
+	}
+</ul>
+
+@code
+{
+	public List<Model> Models { get; set; } = new();
+
+	public class Model
+	{
+		public int Order { get; set; }
+		public string Name { get; set; } = "";
+		public bool IsDragOver{ get; set; }	
+	}
+
+	protected override void OnInitialized()
+	{//fill names wit "random" string
+		for (var i = 0; i < 10; i++)
+		{
+			Model m = new() { Order = i, Name = $"Item {i}" };
+			Models.Add(m);
+		}
+		base.OnInitialized();
+	}
+
+	private void HandleDrop(Model landingModel)
+	{//landing model -> where the dragg happened
+		if (draggingModel is null) return;
+		int originalOrderLanding = landingModel.Order;//keep the original order for later
+		//increase model uned by 1
+		Models.Where(x => x.Order >= landingModel.Order).ToList().ForEach(x => x.Order++);
+		draggingModel.Order = originalOrderLanding;//replace landing model
+		int ii = 0;
+		foreach (var model in Models.OrderBy(x=>x.Order).ToList())
+		{
+			model.Order = ii++;//keep the numbers from 0 to size-1
+			model.IsDragOver = false;//remove drag over. 
+		}
+	}
+
+	private Model? draggingModel;//the model that is being dragged
+	private Model? dragOverModel;//the model that is under dragged model
+
+}
