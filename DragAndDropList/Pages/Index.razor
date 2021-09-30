@@ -1,11 +1,10 @@
 ﻿@page "/"
 
 <ul ondragover="event.preventDefault();"
-	ondragstart="event.dataTransfer.setData('', event.target.id);"
-	>
+	ondragstart="event.dataTransfer.setData('', event.target.id);">
 	@foreach (var item in Models.OrderBy(x => x.Order))
 	{
-		<li @ondrop="()=>HandleDrop(item)" >
+		<li @ondrop="()=>HandleDrop(item)" @key="item">
 			<div @ondragleave="@(()=> {item.IsDragOver = false;})"
 				@ondragenter="@(()=>{item.IsDragOver = true;})"
 				style="@(item.IsDragOver?"border-style: solid none none none; border-color:red;":"")"
@@ -27,7 +26,7 @@
 
 	protected override void OnInitialized()
 	{//fill names wit "random" string
-		for (var i = 0; i < 10; i++)
+		for (var i = 0; i < 100; i++)
 		{
 			Model m = new() { Order = i, Name = $"Item {i}" };
 			Models.Add(m);
@@ -51,6 +50,4 @@
 	}
 
 	private Model? draggingModel;//the model that is being dragged
-	private Model? dragOverModel;//the model that is under dragged model
-
 }
