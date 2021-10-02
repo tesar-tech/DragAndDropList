@@ -1,4 +1,12 @@
 ﻿@page "/"
+<article>
+	<p>
+	This sample demonstrates how to use drag & and drop for ordering lists in Blazor.
+</p>
+<p>If the HTML structure inside an element is more complicated (with child elements) you may encounter an issue with "flickering" dragenter and dragleave events, thus noticeable slowdown.
+	A solution to that is covered in <a href="/Index2">Index2</a>.
+</p>
+</article>
 
 <ul ondragover="event.preventDefault();"
 	ondragstart="event.dataTransfer.setData('', event.target.id);">
@@ -8,7 +16,8 @@
 			<div @ondragleave="@(()=> {item.IsDragOver = false;})"
 				@ondragenter="@(()=>{item.IsDragOver = true;})"
 				style="@(item.IsDragOver?"border-style: solid none none none; border-color:red;":"")"
-				@ondragstart="() => draggingModel = item" draggable="true">@item.Name</div>
+				@ondragstart="() => draggingModel = item"
+				@ondragend="()=> draggingModel = null" draggable="true">@item.Name</div>
 		</li>
 	}
 </ul>
@@ -26,7 +35,7 @@
 
 	protected override void OnInitialized()
 	{//fill names wit "random" string
-		for (var i = 0; i < 100; i++)
+		for (var i = 0; i < 10; i++)
 		{
 			Model m = new() { Order = i, Name = $"Item {i}" };
 			Models.Add(m);

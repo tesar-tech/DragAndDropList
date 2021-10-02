@@ -1,0 +1,73 @@
+﻿@page "/Index2"
+<article>
+	<p>
+		This is more advanced solution that allows mulitple child elements to be part of draggable element.
+	</p>
+</article>
+<div>
+</div>
+<ul ondragover="event.preventDefault();"
+	ondragstart="event.dataTransfer.setData('', event.target.id);">
+	@foreach (var item in Models.OrderBy(x => x.Order))
+	{
+		<li @key="item" class="pb-2 position-relative"
+		@ondragstart="() => draggingModel = item"
+		@ondragend="()=> draggingModel = null" draggable="true">
+			<div>
+				<div>@item.Name</div>
+				<div>Child elem. to demonstrate the issue</div>
+			</div>
+
+			@if (draggingModel is not null)
+			{//this is overlay for droping. Otherwise it flickers between dragenter and leave, bsc of child elemnt
+				//this overlays the child elements of <li>
+				<div class="position-absolute w-100 h-100 " style="top:0px;left:0px;
+             @(item.IsDragOver?"border-top-color:red;border-top-style: solid;border-top-width:thick;":"")"
+			 @ondrop="()=>HandleDrop(item)"
+			 @ondragenter="@(()=>{item.IsDragOver = true;})"
+			 @ondragleave="@(()=> {item.IsDragOver = false;})">
+				</div>
+			}
+
+		</li>
+	}
+</ul>
+
+@code
+{
+	public List<Model> Models { get; set; } = new();
+
+	public class Model
+	{
+		public int Order { get; set; }
+		public string Name { get; set; } = "";
+		public bool IsDragOver { get; set; }
+	}
+
+	protected override void OnInitialized()
+	{//fill names wit "random" string
+		for (var i = 0; i < 10; i++)
+		{
+			Model m = new() { Order = i, Name = $"Item {i}" };
+			Models.Add(m);
+		}
+		base.OnInitialized();
+	}
+
+	private void HandleDrop(Model landingModel)
+	{//landing model -> where the dragg happened
+		if (draggingModel is null) return;
+		int originalOrderLanding = landingModel.Order;//keep the original order for later
+															//increase model uned by 1
+		Models.Where(x => x.Order >= landingModel.Order).ToList().ForEach(x => x.Order++);
+		draggingModel.Order = originalOrderLanding;//replace landing model
+		int ii = 0;
+		foreach (var model in Models.OrderBy(x => x.Order).ToList())
+		{
+			model.Order = ii++;//keep the numbers from 0 to size-1
+			model.IsDragOver = false;//remove drag over.
+		}
+	}
+
+	private Model? draggingModel;//the model that is being dragged
+}
