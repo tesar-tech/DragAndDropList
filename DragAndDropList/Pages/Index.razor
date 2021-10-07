@@ -34,7 +34,7 @@
 	}
 
 	protected override void OnInitialized()
-	{//fill names wit "random" string
+	{//fill names with "random" string
 		for (var i = 0; i < 10; i++)
 		{
 			Model m = new() { Order = i, Name = $"Item {i}" };
@@ -47,7 +47,7 @@
 	{//landing model -> where the drop happened
 		if (draggingModel is null) return;
 		int originalOrderLanding = landingModel.Order;//keep the original order for later
-		//increase model uned by 1
+		//increase model under by 1
 		Models.Where(x => x.Order >= landingModel.Order).ToList().ForEach(x => x.Order++);
 		draggingModel.Order = originalOrderLanding;//replace landing model
 		int ii = 0;
