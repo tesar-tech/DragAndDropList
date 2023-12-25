@@ -1,0 +1,91 @@
+﻿@page "/Example3"
+<article>
+	<p>
+		This is more advanced solution that allows multiple child elements to be part of a draggable element.
+	</p>
+</article>
+<div>
+</div>
+<div class="flex justify-center bg-gray-800">
+	
+<ul class="mx-auto my-5 "
+    ondragover="event.preventDefault();"
+>
+	@foreach (var item in Models.OrderBy(x => x.Order))
+	{
+		if (item.Order == int.MaxValue)
+		{
+			<li @ondrop="()=>HandleDrop(item)" @key="item" class="h-5 bg-green-200 w-full
+				@(item.IsDragOver ?"border-t-4 border-red-500":"")" >
+			</li>
+			continue;
+		}
+		<li @key="item" class="pb-2 relative"
+		    @ondragstart="() => draggingModel = item"
+		    @ondragend="()=> draggingModel = null" draggable="true"
+		    @ondrop="()=>HandleDrop(item)"
+		    >
+			<div class=" bg-emerald-500 py-3">
+				<div class="bg-amber-600 py-10 mx-2 px-2 rounded-xl">@item.Name</div>
+				<div>Child elem. to demonstrate the issue</div>
+			</div>
+
+			@if (draggingModel is not null)
+			{	//this is overlay for dropping. Otherwise it flickers between dragenter and leave, bsc of child element
+				//this overlays the child elements of <li>
+				<div class="bg-rose-100/20 absolute inset-0 w-full h-full @(item.IsDragOver ?"border-t-4 border-red-500":"")"
+				     @ondrop="()=>HandleDrop(item)"
+				     @ondragenter="@(()=>{item.IsDragOver = true; Console.WriteLine($"Drag Enter {item.Name}"); })"
+				     @ondragleave="@(()=> {item.IsDragOver = false; Console.WriteLine($"Drag Leave {item.Name}"); })"
+				     >
+				</div>
+			}
+
+		</li>
+	}
+</ul>
+</div>
+
+@code
+{
+	private List<Model> Models { get; } = [];
+
+	private class Model
+	{
+		public int Order { get; set; }
+		public string Name { get; set; } = "";
+		public bool IsDragOver { get; set; }
+	}
+
+	protected override void OnInitialized()
+	{//fill names wit "random" string
+		for (var i = 0; i < 10; i++)
+		{
+			Model m = new() { Order = i, Name = $"Item {i}" };
+			Models.Add(m);
+		}
+		Models.Add(new(){Order=int.MaxValue});
+		base.OnInitialized();
+	}
+
+	private void HandleDrop(Model landingModel)
+	{//landing model -> where the drag happened
+		if (draggingModel is null) return;
+		if (landingModel.Order == int.MaxValue)
+		{
+			
+		}
+		int originalOrderLanding = landingModel.Order;//keep the original order for later
+															//increase model uned by 1
+		Models.Where(x => x.Order >= landingModel.Order).ToList().ForEach(x => x.Order++);
+		draggingModel.Order = originalOrderLanding;//replace landing model
+		int ii = 0;
+		foreach (var model in Models.OrderBy(x => x.Order).ToList())
+		{
+			model.Order = ii++;//keep the numbers from 0 to size-1
+			model.IsDragOver = false;//remove drag over.
+		}
+	}
+
+	private Model? draggingModel;//the model that is being dragged
+}

@@ -10,6 +10,6 @@ More advanced solution with child elements: [Index2.razor](DragAndDropList/Pages
 (resolves this SO issue ['dragleave' of parent element fires when dragging over children elements](https://stackoverflow.com/questions/10867506/dragleave-of-parent-element-fires-when-dragging-over-children-elements) )
 
 
-![gif](gif.gif)
+![gif](./.github/gif.gif)
 
-Inspirated by: https://chrissainty.com/investigating-drag-and-drop-with-blazor/
+Inspired by: https://chrissainty.com/investigating-drag-and-drop-with-blazor/
