@@ -35,4 +35,4 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        folder: ${{ env.WEBAPP_PATH }}${{env.PUBLISH_DIR}}
+        folder: ${{ env.WEBAPP_PATH }}${{env.PUBLISH_DIR}}/wwwroot
