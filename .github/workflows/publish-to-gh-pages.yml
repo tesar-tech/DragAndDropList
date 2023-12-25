@@ -1,0 +1,38 @@
+name: Build and deploy Blazor WASM app to github pages
+
+on:
+  push:
+    branches: '*'
+    
+env:
+  PUBLISH_DIR: output 
+  WEBAPP_PATH: ./DragAndDropList/
+  WEBAPP_CSPROJ: DragAndDropList.csproj
+  
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+    - uses: actions/checkout@v3 
+
+    - name: Tailwind - download and run cli
+      run: |
+       wget https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 -O /usr/local/bin/tailwindcss
+       chmod +x /usr/local/bin/tailwindcss
+       cd ${{ env.WEBAPP_PATH }}
+       tailwindcss --input ./wwwroot/app.css  --output ./wwwroot/app.min.css  --minify
+
+    - name: Change <base href="" /> in App.razor to match gh repo name
+      run: |
+        REPO_NAME=$(echo "${{ github.repository }}" | awk -F '/' '{print $NF}')
+        sed -i 's/<base href="\/" \/>/<base href="\/'$REPO_NAME'\/" \/>/g' ${{ env.WEBAPP_PATH }}wwwroot/index.html
+   
+    - name: Publish .NET app
+      run: dotnet publish  ${{ env.WEBAPP_PATH }}${{env.WEBAPP_CSPROJ}}  --configuration Release -o ${{ env.WEBAPP_PATH }}${{env.PUBLISH_DIR}}
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ${{ env.WEBAPP_PATH }}${{env.PUBLISH_DIR}}
