@@ -6,7 +6,7 @@ on:
     
 env:
   PUBLISH_DIR: output 
-  WEBAPP_PATH: ./DragAndDropList/
+  WEBAPP_PATH: ./src/
   WEBAPP_CSPROJ: DragAndDropList.csproj
   
 jobs:
