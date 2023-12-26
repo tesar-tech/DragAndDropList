@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "DragAndDropList",
   "resources": {
-    "hash": "sha256-bt2A5VmRydp0dVb6rdYyK7/Dh3tgF7+hqK5QfURZWrU=",
+    "hash": "sha256-dMEO+vGhjz71LlkGaF0z1x8MNARnMCqlA1qGFSei258=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.45ykigla5r.js": "sha256-LjLDIz9+J7uuiwMlQ4HbNx2BnSpphOtO2MwkoI28vdI="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "DragAndDropList.wasm": "sha256-X5KZXyvId6EmC0m5X7tqxPdKI0RqWthBZZKaeZE/n0o=",
+      "DragAndDropList.wasm": "sha256-60hV+h9JWSfTGQHN9AiEfxKm16CmMDQMcfj7IhOVjQU=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-0xGlmgNbbLO6JHwAg/CVTo4bDqc/mxaSmvrBAyfUe+Q=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-ivj7kxN8rrhTm1UV0H7dhsOewu6rhATFU2ZAG/YKLvA=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-Ws5szf6fWPAXna+XyWsAhavx+WDFcA/91DQ7iPRPCMs=",
