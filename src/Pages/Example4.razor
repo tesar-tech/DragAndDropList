@@ -1,9 +1,11 @@
-﻿@page "/Example3"
+﻿@page "/Example4"
 <article class="prose prose-invert">
     <p>
-        Example 3 addresses the challenge of moving an item to the end of the list. This is achieved by use of a variable named `lastModel`,
-        And placing an element at the end of the list that is not draggable. This element is then used as the drop target for the last item in the list.
+        TODO: Attempt to implement drag and drop with touch events.
     </p>
+    <p>
+            Currently it just logs the touch events.
+        </p>
 </article>
 
 
@@ -11,14 +13,24 @@
 </div>
 <div class="flex justify-center bg-gray-800">
 
-    <ul class="mx-auto my-5 "
+    <ul class="mx-auto my-5 touch-none"
         ondragover="event.preventDefault();">
         @foreach (var item in Models.OrderBy(x => x.Order))
         {
 
-            <li @key="item" class="pb-2 relative w-64"
-                @ondragstart="() => draggingModel = item"
-                @ondragend="() => draggingModel = null" draggable="@(item == lastModel ? "false" : "true")"
+            @* @onpointerdown="@(() => Console.WriteLine($"OnPDown {item.Name}"))" *@
+            @* @onpointerlockchange="@(() => Console.WriteLine($"OnPLockChange"))" *@
+            @* @onpointermove="@(() => Console.WriteLine($"OnPMove {item.Name}"))" *@
+            @* @onpointerup="@(() => Console.WriteLine($"OnPUp {item.Name}"))" *@
+            @* *@
+            <li @key="item" class="pb-2 relative w-64  "
+         
+                @ontouchstart="@(() => Console.WriteLine($"OnPTouchStart {item.Name}"))"
+                @ontouchmove="@(() => Console.WriteLine($"OnPTouchMove {item.Name}"))"
+                @ontouchend="@(() => Console.WriteLine($"OnPTouchEnd {item.Name}"))"
+                @ontouchenter="@(() => Console.WriteLine($"OnPTouchEnter {item.Name}"))"
+                @ontouchcancel="@(() => Console.WriteLine($"OnPTouchCancel {item.Name}"))"
+                @ontouchleave="@(() => Console.WriteLine($"OnPTouchLeave {item.Name}"))"
                 >
 
 
@@ -42,6 +54,9 @@
                 @if (draggingModel is not null)
                 {//for explanation why we need this overlay, see Example2
                     <div class="bg-neutral-500/20 absolute inset-0 w-full h-full @(item.IsDragOver ? "border-t-4 border-red-500" : "")"
+                         
+                       
+                         
                          @ondrop="() => HandleDrop(item)"
                          @ondragenter="@(() => { item.IsDragOver = true; Console.WriteLine($"Drag Enter {item.Name}"); })"
                          @ondragleave="@(() => { item.IsDragOver = false; Console.WriteLine($"Drag Leave {item.Name}"); })">

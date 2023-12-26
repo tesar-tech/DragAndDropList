@@ -13,7 +13,7 @@ await builder.Build().RunAsync();
 public static class WebsiteKeys
 {
     public const string GitHubRepo = "https://github.com/tesar-tech/DragAndDropList";
-    public const string Twitter = "https://twitter.com/";
-    public const string Title = "Blazor Drag and Drop List";
+    public const string Twitter = "https://twitter.com/tesar_tech";
+    public const string Title = "Blazor Drag&Drop List";
 
 }
