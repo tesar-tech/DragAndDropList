@@ -1,15 +1,13 @@
-# Drag and drop list in Blazor 
+# Blazor Drag&drop list
 
-Minimal implementation of drag & drop list. Blazor WebAssembly.
+Minimal implementation of drag & drop list in Blazor. Updated to .NET 8.
 
-No extra js library needed.
+Ask a question in [![](https://dcbadge.vercel.app/api/server/DsAXsMuEbx?style=flat)](https://discord.gg/DsAXsMuEbx) or open an issue.
 
-Whole implementation is in [Index.razor](DragAndDropList/Pages/Index.razor).
-
-More advanced solution with child elements: [Index2.razor](DragAndDropList/Pages/Index2.razor) 
-(resolves this SO issue ['dragleave' of parent element fires when dragging over children elements](https://stackoverflow.com/questions/10867506/dragleave-of-parent-element-fires-when-dragging-over-children-elements) )
-
+Check the [demo website](https://tesar-tech.github.io/DragAndDropList/).
 
 ![gif](./.github/gif.gif)
+
+No extra js library needed.
 
 Inspired by: https://chrissainty.com/investigating-drag-and-drop-with-blazor/
