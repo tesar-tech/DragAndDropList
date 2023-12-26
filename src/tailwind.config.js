@@ -6,11 +6,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+        typography: (theme) => ({
+            DEFAULT: {
+                css: {
+                    color: theme('colors.neutral.200'), 
+                },
+            },
+        }),
         colors: {
             primary: colors.emerald
         },
     },
   },
-  plugins: [],
+    plugins: [require('@tailwindcss/typography')],
 }
 
